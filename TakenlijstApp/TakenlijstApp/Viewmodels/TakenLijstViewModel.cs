@@ -1,4 +1,6 @@
-﻿using BL.Messages.PersoonMessages;
+﻿using BL.FilterStrategy;
+using BL.FilterStrategy.Strategien;
+using BL.Messages.PersoonMessages;
 using BL.Messages.TaakMessages;
 using BL.Models;
 using BL.Services;
@@ -22,9 +24,15 @@ namespace TakenlijstApp.Viewmodels
             NieuwTaakCommand = new Command(() => NieuwTaak());
             PersonenCommand = new Command(() => GaNaarPersonen());
 
-            
+            ToonAllesCommand = new Command(() => ToonAlles());
+            NietAfgewerkteCommand = new Command(() => NietAfgewerkte());
+            MeestRecenteEerstCommand = new Command(() => MeestRecente());
+
             _navigatieService = navigatieService;
             _taakService = taakService;
+
+            _huidigeStrategie = new ToonAllesFilterStrategie();
+
 
             Taken = new ObservableCollection<TaakViewModel>(taakService.HaalAlleTaken().Select(ConvertToViewModel));
 
@@ -61,6 +69,17 @@ namespace TakenlijstApp.Viewmodels
         private readonly NavigatieService _navigatieService;
         private readonly TaakService _taakService;
 
+        private IFilterStrategie _huidigeStrategie;
+        public IFilterStrategie HuidigeStrategie
+        {
+            get { return _huidigeStrategie; }
+            set
+            {
+                _huidigeStrategie = value;
+                RefreshTakenlijst();
+            }
+        }
+
         private ObservableCollection<TaakViewModel> _taken;
         public ObservableCollection<TaakViewModel> Taken
         {
@@ -86,6 +105,10 @@ namespace TakenlijstApp.Viewmodels
         public ICommand NieuwTaakCommand { get; init; }
         public ICommand PersonenCommand { get; init; }
 
+        public ICommand ToonAllesCommand { get; init; }
+        public ICommand NietAfgewerkteCommand { get; init; }
+        public ICommand MeestRecenteEerstCommand { get; init; }
+
         private async Task NieuwTaak()
         {
             await _navigatieService.GoToAsync(nameof(TaakDetailPagina));
@@ -96,10 +119,24 @@ namespace TakenlijstApp.Viewmodels
             await _navigatieService.GoToAsync(nameof(PersonenLijstPagina));
         }
 
+        private async Task ToonAlles()
+        {
+            HuidigeStrategie = new ToonAllesFilterStrategie();
+        }
+        private async Task NietAfgewerkte()
+        {
+            HuidigeStrategie = new NietAfgewerktFilterStrategie();
+        }
+        private async Task MeestRecente()
+        {
+            HuidigeStrategie = new MeestRecenteEerstFilterStrategie();
+        }
+
         private TaakViewModel ConvertToViewModel(Taak t)
         {
             return new TaakViewModel(_taakService, t.Id, t.Titel, t.Beschrijving, t.Afgewerkt);
         }
+
 
         private async Task VeranderingGeselecteerdeTaak(TaakViewModel? t)
         {
@@ -112,6 +149,15 @@ namespace TakenlijstApp.Viewmodels
             };
 
             await _navigatieService.GoToAsync(nameof(TaakDetailPagina), parameters);
+        }
+
+        private void RefreshTakenlijst()
+        {
+            List<Taak> nietGesorteerdeTaken = _taakService.HaalAlleTaken();
+
+            List<Taak> gesorteerdeTaken = HuidigeStrategie.Filter(nietGesorteerdeTaken);
+
+            Taken = new ObservableCollection<TaakViewModel>(gesorteerdeTaken.Select(t => ConvertToViewModel(t)));
         }
     }
 }

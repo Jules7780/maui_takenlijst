@@ -7,6 +7,24 @@
         <CollectionView ItemsSource="{Binding Taken}"
                         SelectedItem="{Binding GeselecteerdeTaak}"
                         SelectionMode="Single">
+
+            <CollectionView.Header>
+                <HorizontalStackLayout Padding="16,8,16,8" Spacing="8">
+                    <Button
+                Text="Toon alles"
+                Command="{Binding ToonAllesCommand}"/>
+
+                    <Button
+                    Text="Toon niet afgewerkte"
+                    Command="{Binding NietAfgewerkteCommand}"/>
+
+                    <Button
+                    Text="Alles, meest recente eerst"
+                    Command="{Binding MeestRecenteEerstCommand}"/>
+
+                </HorizontalStackLayout>
+            </CollectionView.Header>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <HorizontalStackLayout Padding="16,8,16,8" Spacing="8">
@@ -19,11 +37,14 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    <Button
+        <HorizontalStackLayout Padding="16,8,16,8" Spacing="8">
+            <Button
         Text="Personen"
         Command="{Binding PersonenCommand}"/>
-    <Button
+            <Button
                 Text="Nieuw"
                 Command="{Binding NieuwTaakCommand}"/>
+
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
