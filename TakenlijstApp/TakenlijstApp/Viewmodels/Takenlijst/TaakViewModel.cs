@@ -25,10 +25,35 @@ namespace TakenlijstApp.Viewmodels.Takenlijst
         }
 
         private readonly TaakService _taakService;
-        private bool _isAanHetInitialiseeren;
+        private bool _isAanHetInitialiseeren = true;
         public int Id { get; set; }
-        public string Titel { get; set; }
-        public string Beschrijving { get; set; }
+        private string _titel;
+        public string Titel
+        {
+            get
+            {
+                return _titel;
+            }
+            set
+            {
+                _titel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _beschrijving;
+        public string Beschrijving
+        {
+            get
+            {
+                return _beschrijving;
+            }
+            set
+            {
+                _beschrijving = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private bool _isGedaan;
         public bool IsGedaan
@@ -51,8 +76,7 @@ namespace TakenlijstApp.Viewmodels.Takenlijst
 
         private void TaakUpdaten()
         {
-            Taak t = _taakService.HaalMetId(Id);
-            _taakService.Update(TaakFactory.UpdateTaak(t, t.Titel, t.Beschrijving, _isGedaan, t.PersoonId));
+            _taakService.UpdateIsGedaan(Id, IsGedaan);
         }
 
 

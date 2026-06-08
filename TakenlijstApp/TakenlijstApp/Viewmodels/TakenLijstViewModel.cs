@@ -32,10 +32,12 @@ namespace TakenlijstApp.Viewmodels
             {
                 var taakVM = Taken.FirstOrDefault(t => t.Id == message.UpdatedTaak.Id);
 
+
                 if (taakVM != null)
                 {
-                    Taken.Remove(taakVM);
-                    Taken.Add(ConvertToViewModel(message.UpdatedTaak));
+                    taakVM.Titel = message.UpdatedTaak.Titel;
+                    taakVM.Beschrijving = message.UpdatedTaak.Beschrijving;
+                    taakVM.IsGedaan = message.UpdatedTaak.Afgewerkt;
                 }
             });
 
