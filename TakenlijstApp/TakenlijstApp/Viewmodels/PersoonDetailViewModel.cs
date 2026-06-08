@@ -126,7 +126,12 @@ namespace TakenlijstApp.Viewmodels
         }
         private async Task Bewaren()
         {
-            //velden checken
+            if(String.IsNullOrEmpty(Voornaam))
+            {
+                await Application.Current.MainPage.DisplayAlert("Velden niet OK", "Voornaam is verplicht", "OK");
+                return;
+            }
+
             
             if (_persoon == null)
             {

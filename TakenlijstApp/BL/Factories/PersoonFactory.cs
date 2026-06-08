@@ -16,7 +16,16 @@ namespace BL.Factories
 
         public static Persoon UpdatePersoon(Persoon p, string url, string voornaam, string achternaam, DateTime geboortedatum)
         {
-            return new Persoon(voornaam, achternaam, geboortedatum, url, p.CreatieDatum, DateTime.Now);
+            
+            p.Url = url;
+            p.Voornaam = voornaam;
+            p.Achternaam = achternaam;
+            p.Geboortedatum = geboortedatum;
+            p.GewijzigdDatum = DateTime.Now;
+            
+            
+            
+            return p;
         }
     }
-}
+} 

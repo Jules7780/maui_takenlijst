@@ -4,6 +4,8 @@
              x:Class="TakenlijstApp.PersoonDetailPagina"
              Title="{Binding Voornaam}">
     <VerticalStackLayout>
+        <Image Source="{Binding Url}" HeightRequest="100"/>
+
         <Label Text="FOTO (URL)"/>
         <Entry Text="{Binding Url}" />
         

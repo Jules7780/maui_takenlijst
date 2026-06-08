@@ -1,4 +1,5 @@
 ﻿using BL.Interfaces;
+using BL.Messages.PersoonMessages;
 using BL.Models;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace BL.Services
     public class PersoonService
     {
         private readonly IPersoonRepo _repo;
+        private readonly MessageService _messageService;
 
-        public PersoonService(IPersoonRepo repo)
+        public PersoonService(IPersoonRepo repo, MessageService messageService)
         {
             _repo = repo;
+            _messageService = messageService;
         }
 
         public Persoon HaalMetId(int persoonId)
@@ -41,19 +44,26 @@ namespace BL.Services
         {
             ArgumentNullException.ThrowIfNull(p);
             _repo.Toevoegen(p);
+            _messageService.Send(new PersoonNieuwMessage(p));
+
         }
 
         public void Update(Persoon p)
         {
             ArgumentNullException.ThrowIfNull(p);
             _repo.Update(p);
+            _messageService.Send(new PersoonUpdatedMessage(p));
         }
 
         public bool Verwijderen(Persoon p)
         {
             ArgumentNullException.ThrowIfNull(p);
             if (_repo.Exists(p))
+            {
+                _messageService.Send(new PersoonVerwijderMessage(p));
                 return _repo.Verwijderen(p);
+
+            }
 
             return false;
         }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TakenlijstApp.TaakDetailPagina"
+             Title="{Binding Titel}">
+    <VerticalStackLayout>
+
+        <Label Text="TITEL"/>
+        <Entry Text="{Binding Titel}" />
+
+        <Label Text="BESCHRIJVING"/>
+        <Entry Text="{Binding Beschrijving}" />
+
+
+        <Label Text="VOOR WIE"/>
+        <Picker ItemsSource="{Binding Personen}"
+                SelectedItem="{Binding AssigneerdePersoon}"/>
+
+        <Label Text="IS GEDAAN"/>
+        <CheckBox IsChecked="{Binding IsGedaan}"/>
+
+        <HorizontalStackLayout>
+            <Button Text="Annuleren" Command="{Binding AnnulerenCommand}"/>
+            <Button Text="Bewaren" Command="{Binding BewarenCommand}"/>
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

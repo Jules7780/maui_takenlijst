@@ -1,4 +1,5 @@
-﻿using BL.Models;
+﻿using BL.Messages.PersoonMessages;
+using BL.Models;
 using BL.Services;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,39 @@ namespace TakenlijstApp.Viewmodels
     {
         
 
-        public PersonenLijstViewModel(PersoonService service, NavigatieService navigatieService)
+        public PersonenLijstViewModel(PersoonService service, NavigatieService navigatieService, MessageService messageService)
         {
             NieuwPersoonCommand = new Command(() => NieuwPersoon());
             _navigatieService = navigatieService;
 
             Personen = new ObservableCollection<PersoonViewModel>(service.HaalAllePersonen().Select(ConvertToViewModel));
+
+            messageService.Register<PersoonUpdatedMessage>(this, (sender, message) =>
+            {
+                var persoonVM = Personen.FirstOrDefault(p => p.Id == message.UpdatedPersoon.Id);
+
+                if (persoonVM != null)
+                {
+                    Personen.Remove( persoonVM );
+                    Personen.Add(ConvertToViewModel(message.UpdatedPersoon));
+                }
+            });
+
+            messageService.Register<PersoonNieuwMessage>(this, (sender, message) =>
+            {
+                    Personen.Add(ConvertToViewModel(message.NieuwPersoon));
+
+            });
+
+            messageService.Register<PersoonVerwijderMessage>(this, (sender, message) =>
+            {
+                var persoonVM = Personen.FirstOrDefault(p => p.Id == message.VerwijdertPersoon.Id);
+
+                if (persoonVM != null)
+                {
+                    Personen.Remove(persoonVM);
+                }
+            });
         }
 
         private readonly NavigatieService _navigatieService;

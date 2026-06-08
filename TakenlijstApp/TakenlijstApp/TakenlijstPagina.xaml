@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TakenlijstApp.TakenlijstPagina"
+             Title="Takenlijst">
+    <VerticalStackLayout Padding="16,8,16,8" Spacing="8">
+        <CollectionView ItemsSource="{Binding Taken}"
+                        SelectedItem="{Binding GeselecteerdeTaak}"
+                        SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout Padding="16,8,16,8" Spacing="8">
+                        <CheckBox IsChecked="{Binding IsGedaan}"/>
+                        <VerticalStackLayout Padding="16,8,16,8" Spacing="8">
+                            <Label Text="{Binding Titel}"/>
+                            <Label Text="{Binding Beschrijving}" MaxLines="2"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    <Button
+        Text="Personen"
+        Command="{Binding PersonenCommand}"/>
+    <Button
+                Text="Nieuw"
+                Command="{Binding NieuwTaakCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>
