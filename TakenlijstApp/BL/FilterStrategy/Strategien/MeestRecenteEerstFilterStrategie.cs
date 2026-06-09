@@ -11,7 +11,7 @@ namespace BL.FilterStrategy.Strategien
     {
         public List<Taak> Filter(List<Taak> taken)
         {
-            return taken.OrderBy(t=>t.GewijzigdDatum).ToList();
+            return taken.OrderByDescending(t=>t.GewijzigdDatum).ToList();
         }
     }
 }

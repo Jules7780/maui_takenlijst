@@ -13,6 +13,8 @@ namespace BL.Factories
             return new Taak(titel, beschrijving, isGedaan, persoonId,DateTime.Now, DateTime.Now);
         }
 
+
+
         public static Taak UpdateTaak(Taak t, string titel, string beschrijving, bool isGedaan, int persoonId)
         {
 
@@ -26,5 +28,10 @@ namespace BL.Factories
 
             return t;
         }
+
+        //public static Taak UpdateIsGedaanTaak(Taak t, bool isGedaan)
+        //{
+        //    return new Taak(t.Id, );
+        //}
     }
 }

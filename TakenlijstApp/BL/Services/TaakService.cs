@@ -55,13 +55,19 @@ namespace BL.Services
             _messageService.Send(new TaakUpdatedMessage(t));
         }
 
-        public void UpdateIsGedaan(int taakId, bool IsGedaan)
+        public void UpdateZonderMessage(Taak t)
         {
-            Taak t = HaalMetId(taakId);
-            t.Afgewerkt = IsGedaan;
-            t.GewijzigdDatum = DateTime.Now;
+            ArgumentNullException.ThrowIfNull(t);
             _repo.Update(t);
         }
+
+        //public void UpdateIsGedaan(int taakId, bool IsGedaan)
+        //{
+        //    Taak t = HaalMetId(taakId);
+        //    t.Afgewerkt = IsGedaan;
+        //    t.GewijzigdDatum = DateTime.Now;
+        //    _repo.Update(t);
+        //}
 
         public bool Verwijderen(Taak t)
         {

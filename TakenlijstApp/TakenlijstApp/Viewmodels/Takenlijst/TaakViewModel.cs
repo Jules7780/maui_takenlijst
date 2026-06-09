@@ -76,7 +76,14 @@ namespace TakenlijstApp.Viewmodels.Takenlijst
 
         private void TaakUpdaten()
         {
-            _taakService.UpdateIsGedaan(Id, IsGedaan);
+            //Taak t = _taakService.HaalMetId(Id);
+            //TaakFactory.UpdateIsGedaanTaak(t, IsGedaan);
+            //_taakService.UpdateIsGedaan(Id, IsGedaan);
+
+            Taak t = _taakService.HaalMetId(Id);
+            Taak geupdatedTaak = TaakFactory.UpdateTaak(t, t.Titel, t.Beschrijving, IsGedaan, t.PersoonId);
+
+            _taakService.UpdateZonderMessage(geupdatedTaak);
         }
 
 

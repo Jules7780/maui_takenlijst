@@ -41,7 +41,7 @@ namespace TakenlijstApp
             Routing.RegisterRoute(nameof(PersoonDetailPagina), typeof(PersoonDetailPagina));
             Routing.RegisterRoute(nameof(PersonenLijstPagina), typeof(PersonenLijstPagina));
             Routing.RegisterRoute(nameof(TaakDetailPagina), typeof(TaakDetailPagina));
-            //Routing.RegisterRoute(nameof(TakenLijstPagina), typeof(TakenLijstPagina));
+            Routing.RegisterRoute(nameof(TakenlijstPagina), typeof(TakenlijstPagina));
 
 
 
